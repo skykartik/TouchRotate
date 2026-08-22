@@ -4,7 +4,7 @@ Rotate your Windows touchpad controls to match your screen orientation(For Windo
 it keeps the touchpad intuitive to use, so you don't have to fight your cursor when your laptop is in an unusual orientation coded in **python** (easy to use)
 
 ### REQUIREMENTS:
-*Python 3 on Windows. No pip installs needed (uses only
+**Python 3 on Windows. No pip installs needed (uses only
 the standard library's ctypes)
 
 ## How To Use
