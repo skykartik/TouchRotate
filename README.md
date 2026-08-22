@@ -12,7 +12,13 @@ Download [Python](https://www.python.org/downloads/windows/) and run the script 
 **or**
 open commandline/terminal/console in the folder where you downloaded the .py file and run `py TouchRotate.py`
 
+### Changing The Orientation
+windows is kinda buggy in this,if youre an old user,you might know that windows officialy had shortcuts to change orientation in older version,but microsoft removed it in newer patches,so to bring that back again you can use [irotate](https://www.entechtaiwan.com/util/irotate.shtm) for changing your display orientation with windows shortcuts(yea its safe and uses 1mb memory)
+
 ### SAFETY:
 closing this console (or Ctrl+C) immediately restores normal
 Windows mouse behavior - the raw input takeover is tied to this
 process and Windows cleans it up automatically when the process ends.
+
+
+im working on a funcitonal app to make this alot easier,thankyou for visiting fellas.
