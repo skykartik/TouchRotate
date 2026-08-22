@@ -5,16 +5,15 @@ import sys
 user32 = ctypes.windll.user32
 kernel32 = ctypes.windll.kernel32
 
-# ---- constants ----
 WM_INPUT = 0x00FF
 WM_DESTROY = 0x0002
 RID_INPUT = 0x10000003
 RIM_TYPEMOUSE = 0
 RIDEV_INPUTSINK = 0x00000100
-RIDEV_NOLEGACY = 0x00000030  # RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE-ish behavior for mouse usage
+RIDEV_NOLEGACY = 0x00000030 
 RIDEV_REMOVE = 0x00000001
 VK_CONTROL = 0x11
-VK_MENU = 0x12  # Alt
+VK_MENU = 0x12 
 VK_UP, VK_RIGHT, VK_DOWN, VK_LEFT = 0x26, 0x27, 0x28, 0x25
 VK_P = 0x50
 
@@ -22,8 +21,6 @@ orientation = 0
 enabled = True
 ROTATE_SIGN = 1
 
-# internal tracked cursor position - we own this instead of repeatedly
-# calling GetCursorPos, which avoids racing against any OS-side lag
 cursor_x = 0
 cursor_y = 0
 
@@ -32,12 +29,9 @@ SPI_GETMOUSE = 0x0003
 
 
 def get_sensitivity_scale():
-    """Approximate Windows' own pointer-speed feel so the remapped
-    cursor doesn't feel slower/faster or less smooth than normal."""
     speed = wintypes.DWORD(0)
     user32.SystemParametersInfoW(SPI_GETMOUSESPEED, 0, ctypes.byref(speed), 0)
-    base = max(1, min(20, speed.value)) / 10.0  # 10 = Windows default
-
+    base = max(1, min(20, speed.value)) / 10.0 
     mouse_params = (ctypes.c_int * 3)()
     user32.SystemParametersInfoW(SPI_GETMOUSE, 0, ctypes.byref(mouse_params), 0)
     enhance_precision = mouse_params[2] == 1
@@ -51,8 +45,6 @@ def apply_sensitivity(dx, dy):
     mag = (dx * dx + dy * dy) ** 0.5
     accel = 1.0
     if ENHANCE_PRECISION and mag > 0:
-        # smooth approximation of Windows' acceleration curve - not an
-        # exact match, but noticeably closer than flat 1:1 passthrough
         accel = 1.0 + min(mag / 18.0, 1.6)
     scale = SENS_BASE * accel
     return dx * scale, dy * scale
@@ -160,9 +152,6 @@ frac_y = 0.0
 
 
 def sync_cursor_pos():
-    """Re-read the real cursor position once (on start / orientation
-    change / pause-resume) so our internal tracker can't drift from
-    reality if something else moved the cursor while we weren't."""
     global cursor_x, cursor_y, frac_x, frac_y
     pt = wintypes.POINT()
     user32.GetCursorPos(ctypes.byref(pt))
@@ -194,9 +183,6 @@ def handle_raw_input(lparam):
         rdx, rdy = float(rdx), float(rdy)
 
     rdx, rdy = apply_sensitivity(rdx, rdy)
-
-    # accumulate fractional pixels so slow/precise strokes aren't lost
-    # to integer truncation (keeps small movements smooth)
     frac_x += rdx
     frac_y += rdy
     step_x = int(frac_x)
@@ -264,14 +250,14 @@ def main():
     hotkey_cooldown = 0
     try:
         while True:
-            while user32.PeekMessageW(ctypes.byref(msg), None, 0, 0, 1):  # PM_REMOVE
+            while user32.PeekMessageW(ctypes.byref(msg), None, 0, 0, 1):
                 user32.TranslateMessage(ctypes.byref(msg))
                 user32.DispatchMessageW(ctypes.byref(msg))
             if hotkey_cooldown <= 0:
                 before = orientation, enabled
                 check_hotkeys(hwnd)
                 if (orientation, enabled) != before:
-                    hotkey_cooldown = 20  # ~300ms debounce so one press doesn't retrigger
+                    hotkey_cooldown = 20 
             else:
                 hotkey_cooldown -= 1
             kernel32.Sleep(15)
