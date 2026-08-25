@@ -10,7 +10,7 @@ it keeps the touchpad intuitive to use, so you don't have to fight your cursor w
 the standard library's ctypes)
 
 ## How To Use
-Download [Python](https://www.python.org/downloads/windows/) and run the script directly in python.
+Download [Python](https://www.python.org/downloads/windows/) and the [script](https://github.com/skykartik/TouchRotate/releases/tag/script) , run the script directly in python.
 **or**
 open commandline/terminal/console in the folder where you downloaded the .py file and run `py TouchRotate.py`
 
