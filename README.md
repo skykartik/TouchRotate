@@ -3,8 +3,10 @@ Rotate your Windows touchpad controls to match your screen orientation(For Windo
 
 it keeps the touchpad intuitive to use, so you don't have to fight your cursor when your laptop is in an unusual orientation coded in **python** (easy to use)
 
+# Methods
+## 1. Using Script(Tricky For Beginners)
 ### REQUIREMENTS:
-**Python 3 on Windows. No pip installs needed (uses only
+- **Python 3 on Windows. No pip installs needed (uses only
 the standard library's ctypes)
 
 ## How To Use
@@ -20,5 +22,13 @@ closing this console (or Ctrl+C) immediately restores normal
 Windows mouse behavior - the raw input takeover is tied to this
 process and Windows cleans it up automatically when the process ends.
 
+## 2. Using Gui Native App(Easy)
+### REQUIREMENTS:
+- a running windows operating system ig
 
-im working on a funcitonal app to make this alot easier,thankyou for visiting fellas.
+## How To Use
+download the zip from [here](https://github.com/skykartik/TouchRotate/releases/tag/gui) and extract it somewhere and run it directly lol
+
+**it also includes built in orientation shortcuts**
+
+### thankyou for visiting fellas.
